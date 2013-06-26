@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weasyl Conbadgifier</title>
+  </head>
+  <body>
+    {% if error %}
+    <p>{{ error }}</p>
+    {% endif %}
+    <form action="" method="POST">
+      <label for="username">Username</label>
+      <input type="text" name="username">
+      <label for="upscaling">Avatar upscaling method</label>
+      <select name="upscaling">
+        <option value="antialias" selected>Antialias</option>
+        <option value="bilinear">Bilinear interpolation</option>
+        <option value="bicubic">Bicubic interpolation</option>
+        <option value="nearest">Nearest neighbor</option>
+      </select>
+      <button type="submit">Generate</button>
+    </form>
+  </body>
+</html>
