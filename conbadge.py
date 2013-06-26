@@ -1,7 +1,9 @@
 from fractions import Fraction
+from cStringIO import StringIO
 
 from PIL import Image, ImageDraw, ImageFont
 import qrcode
+import requests
 
 
 museo = ImageFont.truetype('Museo500-Regular.otf', 424)
@@ -13,6 +15,12 @@ qr_offset = 75, 75
 name_color = 6, 155, 192
 text_bounds = 735, 125
 text_offset = 365, 1155
+avatar_bounds = 282, 282
+avatar_offset = 49, 1131
+
+
+class AvatarFetchError(Exception):
+    pass
 
 
 def draw_text(text, color, fit_size):
@@ -40,7 +48,13 @@ def center(size, fit_size, offset):
 
 logo_pos = center(logo_stamp.size, qr_size, qr_offset)
 
-def weasyl_badge(username):
+def weasyl_badge(username, avatar_resizing=Image.ANTIALIAS):
+    r = requests.get(
+        'https://www.weasyl.com/api/useravatar', params={'username': username})
+    resp = r.json()
+    if resp['error']['code'] != 0:
+        raise AvatarFetchError(resp['error'])
+
     back = badge_back.copy()
     qr = qrcode.QRCode(
         error_correction=qrcode.constants.ERROR_CORRECT_H, border=1)
@@ -51,4 +65,9 @@ def weasyl_badge(username):
     text = draw_text(username, name_color, text_bounds)
     text_pos = center(text.size, text_bounds, text_offset)
     back.paste(text, text_pos, text)
+
+    avatar = Image.open(StringIO(requests.get(resp['avatar']).content))
+    avatar = avatar.resize(avatar_bounds, avatar_resizing).convert('RGBA')
+    back.paste(avatar, avatar_offset, avatar)
+
     return back
