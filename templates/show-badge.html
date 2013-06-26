@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<p>
+  Here is the generated badge for <a href="https://www.weasyl.com/~{{ sysname }}">~{{ sysname }}</a>! This is a small version of the badge; click the image to view the large version or right-click to save it.
+</p>
+
+<a href="{{ badge_url }}">
+  <img class="conbadge" src="{{ badge_url }}">
+</a>
+
+{% endblock %}
