@@ -48,6 +48,9 @@ def center(size, fit_size, offset):
 
 logo_pos = center(logo_stamp.size, qr_size, qr_offset)
 
+def weasyl_sysname(target):
+  return ''.join(i for i in target if i.isalnum()).lower()
+
 def weasyl_badge(username, avatar_resizing=Image.ANTIALIAS):
     r = requests.get(
         'https://www.weasyl.com/api/useravatar', params={'username': username})
@@ -58,7 +61,7 @@ def weasyl_badge(username, avatar_resizing=Image.ANTIALIAS):
     back = badge_back.copy()
     qr = qrcode.QRCode(
         error_correction=qrcode.constants.ERROR_CORRECT_H, border=1)
-    qr.add_data('https://weasyl.com/~%s' % (username,))
+    qr.add_data('https://weasyl.com/~%s' % (weasyl_sysname(username),))
     qr_mask = qr.make_image().resize(qr_size)
     back.paste((255, 255, 255, 255), qr_offset, qr_mask)
     back.paste(logo_stamp, logo_pos, logo_stamp)
