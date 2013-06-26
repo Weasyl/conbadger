@@ -6,6 +6,7 @@ import qrcode
 
 museo = ImageFont.truetype('Museo500-Regular.otf', 424)
 badge_back = Image.open('badge-back.png')
+logo_stamp = Image.open('logo-stamp.png')
 
 qr_size = 975, 975
 qr_offset = 75, 75
@@ -37,6 +38,8 @@ def center(size, fit_size, offset):
     x, y = offset
     return x + (fw - w) // 2, y + (fh - h) // 2
 
+logo_pos = center(logo_stamp.size, qr_size, qr_offset)
+
 def weasyl_badge(username):
     back = badge_back.copy()
     qr = qrcode.QRCode(
@@ -44,6 +47,7 @@ def weasyl_badge(username):
     qr.add_data('https://weasyl.com/~%s' % (username,))
     qr_mask = qr.make_image().resize(qr_size)
     back.paste((255, 255, 255, 255), qr_offset, qr_mask)
+    back.paste(logo_stamp, logo_pos, logo_stamp)
     text = draw_text(username, name_color, text_bounds)
     text_pos = center(text.size, text_bounds, text_offset)
     back.paste(text, text_pos, text)
