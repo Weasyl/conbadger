@@ -1,3 +1,6 @@
+# Copyright (c) Weasyl LLC
+# See COPYING for details.
+
 import os.path
 
 from flask import Flask, abort, redirect, render_template, request, url_for

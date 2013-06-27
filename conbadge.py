@@ -1,3 +1,6 @@
+# Copyright (c) Weasyl LLC
+# See COPYING for details.
+
 from fractions import Fraction
 from cStringIO import StringIO
 
