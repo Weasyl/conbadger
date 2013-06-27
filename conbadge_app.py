@@ -8,7 +8,7 @@ from PIL import Image
 
 from conbadge import AvatarFetchError, weasyl_badge, weasyl_sysname
 
-
+# Valid upscaling options for resizing a user's avatar.
 upscaling = {
     'antialias': Image.ANTIALIAS,
     'bilinear': Image.BILINEAR,
@@ -19,17 +19,21 @@ upscaling = {
 app = Flask(__name__)
 
 def badge_path(sysname):
+    """Returns a path pointing to the badge for a given sysname."""
     return os.path.join('static', 'badges', sysname + '.png')
 
 def badge_url(sysname):
+    """Returns a URL pointing to the badge for a given sysname."""
     return url_for('static', filename=os.path.join('badges', sysname + '.png'))
 
 @app.route('/')
 def index():
+    """Serves the rendered index template."""
     return render_template('index.html')
 
 @app.route('/', methods=['POST'])
 def generate_badge():
+    """Renders a badge for a user and redirects to a page displaying it."""
     username = request.form['username']
     upscale_method = upscaling.get(
         request.form.get('upscaling'), Image.ANTIALIAS)
@@ -44,6 +48,7 @@ def generate_badge():
 
 @app.route('/badge/<sysname>')
 def show_badge(sysname):
+    """Show the given user's badge."""
     path = badge_path(sysname)
     if not os.path.exists(path):
         abort(404)
