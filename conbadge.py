@@ -25,12 +25,11 @@ avatar_offset = 49, 1131
 
 class AvatarFetchError(Exception):
     """Exception class for problems fetching the user's avatar."""
-    pass
 
 
 def draw_text(text, color, fit_size):
     """
-    Draw text within an image to fit a given size and return the image.
+    Draw text within an image to fit within a given size and return the image.
 
     Arguments:
     text: the text to draw.
@@ -60,7 +59,7 @@ def center(size, fit_size, offset):
 
     Arguments:
     size: a tuple containing the width and height of the area to be centered.
-    fit_Size: a tuple containing the width and heigh of the area in which to 
+    fit_size: a tuple containing the width and heigh of the area in which to
     center 'size'
     offset: a tuple representing an x/y coordinate of the offset.
 
@@ -86,7 +85,7 @@ def weasyl_badge(username, avatar_resizing=Image.ANTIALIAS):
     Arguments:
     username: the user requesting the badge.
     avatar_resizing: how to scale the user's avatar (defaults to antialiasing).
-    
+
     """
     # Retrieve the user's avatar.
     r = requests.get(
