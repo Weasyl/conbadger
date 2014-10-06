@@ -91,7 +91,7 @@ def weasyl_badge(username, avatar_resizing=Image.ANTIALIAS):
     r = requests.get(
         'https://www.weasyl.com/api/useravatar', params={'username': username})
     resp = r.json()
-    if resp['error']['code'] != 0:
+    if 'error' in resp:
         raise AvatarFetchError(resp['error'])
 
     # Build the QR code for the user's page onto the backing.
